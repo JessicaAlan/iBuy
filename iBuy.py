@@ -29,7 +29,7 @@ if browser.is_text_present('non-catalog item', wait_time=10):
 			raw_input("You must select the supplier manually. Press Enter when done...")
 			while ws['A' + currentRow].value == vendor:
 				iframe.fill('NonCatProdDesc', ws['B' + currentRow].value)
-				iframe.fill('NonCatCatalogNumber', ws['C' + currentRow].value)
+				iframe.fill('NonCatCatalogNumber', str(ws['C' + currentRow].value))
 				iframe.fill('NonCatQuantity', str(ws['D' + currentRow].value))
 				iframe.fill('NonCatUnitPrice', str(ws['E' + currentRow].value))
 				iframe.fill('NonCatPkgAmount', "1")
