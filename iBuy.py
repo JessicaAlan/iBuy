@@ -16,14 +16,14 @@ browser.fill('inputEnterpriseId', username)
 browser.fill('password', password)
 login = browser.find_by_name('BTN_LOGIN')
 login.click()
-if browser.is_text_present('non-catalog item', wait_time=10):
+if browser.is_text_present('non-catalog item', wait_time=20):
 	browser.click_link_by_text('non-catalog item')
 	wb = load_workbook(purchaseOrder)
 	ws = wb["Purchase Request Form"]
 	# startRow = "8"
 	currentRow = startRow
 	vendor = ws['A' + str(startRow)].value
-	if browser.is_element_present_by_id('ModalPopupIframe', wait_time=5):
+	if browser.is_element_present_by_id('ModalPopupIframe', wait_time=10):
 		with browser.get_iframe('ModalPopupIframe') as iframe:
 			# pause and wait for user to select supplier
 			raw_input("You must select the supplier manually. Press Enter when done...")
