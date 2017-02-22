@@ -1,6 +1,14 @@
 from splinter import Browser
 from openpyxl import load_workbook
 import sys,time
+import re
+
+def removeHyperlink(link):
+	if link.find("HYPERLINK") != -1:
+		quoted = re.findall(r'"(.*?)"', link)
+		return quoted[1]
+	else:
+		return link
 
 username = str(sys.argv[1])
 password = str(sys.argv[2])
@@ -20,7 +28,6 @@ if browser.is_text_present('non-catalog item', wait_time=15):
 	browser.click_link_by_text('non-catalog item')
 	wb = load_workbook(purchaseOrder)
 	ws = wb["Purchase Request Form"]
-	# startRow = "8"
 	currentRow = startRow
 	vendor = ws['A' + str(startRow)].value
 	if browser.is_element_present_by_id('ModalPopupIframe', wait_time=5):
@@ -29,7 +36,7 @@ if browser.is_text_present('non-catalog item', wait_time=15):
 			raw_input("You must select the supplier manually. Press Enter when done...")
 			while ws['A' + currentRow].value == vendor:
 				iframe.fill('NonCatProdDesc', ws['B' + currentRow].value)
-				iframe.fill('NonCatCatalogNumber', str(ws['C' + currentRow].value))
+				iframe.fill('NonCatCatalogNumber', removeHyperlink(str(ws['C' + currentRow].value)))
 				iframe.fill('NonCatQuantity', str(ws['D' + currentRow].value))
 				iframe.fill('NonCatUnitPrice', str(ws['E' + currentRow].value))
 				iframe.fill('NonCatPkgAmount', "1")
